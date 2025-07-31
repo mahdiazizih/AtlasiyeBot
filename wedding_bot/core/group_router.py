@@ -1,10 +1,14 @@
 # wedding_bot/core/group_router.py
 
 from aiogram import Router
-from groups.group_-1002787279234 import group_-1002787279234_router  # 🟢 خط 2
 
-def setup_group_routers(dp: Router):  # 🟢 خط 4
-    dp.include_router(group_-1002787279234_router)  # 🟢 خط 5
+from groups.group_-1002787279234 import group_-1002787279234_router 
+def setup_group_routers(dp: Router):  
+    dp.include_router(group_-1002787279234_router)
+    
+    from groups.group_-4818872906 import group_-4818872906_router 
+def setup_group_routers(dp: Router):  
+    dp.include_router(group_-4818872906_router)
 
 from aiogram.types import Message
 from importlib import import_module
