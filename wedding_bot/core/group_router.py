@@ -9,41 +9,14 @@ router = Router()
 def setup_group_routers(dp: Router):
     for chat_id, cfg in GROUP_CONFIG.items():
         module_name = cfg["router_module"]
-        module = importlib.import_module(f"wedding_bot.groups.{module_name}")
-        group_router = getattr(module, f"{module_name}_router")
-        dp.include_router(group_router)
+        try:
+            # ماژول را از پوشه groups ایمپورت می‌کنیم
+            module = importlib.import_module(f"wedding_bot.groups.{module_name}")
+            
+            # نام متغیر روتری که در فایل ماژول تعریف شده (مثلاً group_atlas_router)
+            router_instance = getattr(module, f"{module_name}_router")
 
-from aiogram.types import Message
-from importlib import import_module
-import logging
-
-router = Router()
-logger = logging.getLogger(__name__)
-
-# تعریف لیست گروه‌های مجاز (chat_id ها)
-VALID_GROUPS = [
-    -1002787279234,   # گروه تالار
-    -4818872906       # گروه صندوق
-]
-
-@router.message()
-async def handle_group_message(message: Message):
-    chat_id = message.chat.id
-
-    if chat_id not in VALID_GROUPS:
-        logger.warning(f"دریافت پیام از گروه ناشناس: {chat_id}")
-        return  # نادیده گرفتن پیام
-
-    try:
-        # ماژول پیکربندی گروه را بارگذاری کن
-        module_name = f"wedding_bot.groups.group_{chat_id}"
-        group_module = import_module(module_name)
-
-        # ثبت روت مناسب گروه در Dispatcher
-        if hasattr(group_module, "register"):
-            await group_module.register(message)
-        else:
-            logger.warning(f"ماژول {module_name} تابع register ندارد")
-
-    except Exception as e:
-        logger.exception(f"خطا در بارگذاری تنظیمات گروه {chat_id}: {e}")
+            # اضافه کردن router به Dispatcher
+            dp.include_router(router_instance)
+        except Exception as e:
+            print(f"[ERROR] Cannot load router for group {chat_id} ({cfg['name']}): {e}")
