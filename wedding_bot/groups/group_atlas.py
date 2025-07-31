@@ -1,7 +1,8 @@
-from aiogram import Router
-from core.command_router import register_common_commands  # دستورات مشترک
+# wedding_bot/groups/group_atlas.py
 
-group_-1002787279234_router = Router(name="group_-1002787279234")
+from telegram import Update
+from telegram.ext import ContextTypes
+from wedding_bot.core.command_router import handle_command
 
-# ثبت دستورات مشترک برای این گروه
-register_common_commands(group_-1002787279234_router)
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await handle_command(update, context)
