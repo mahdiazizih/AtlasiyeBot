@@ -1,14 +1,12 @@
-# wedding_bot/config/groups_config.py
+# تعریف گروه‌ها و تنظیمات آن‌ها
 
-GROUPS_CONFIG = {
-    -1002787279234: {  # گروه تالار
-        "name": "تالار اطلس",
-        "db_schema": "atlas",
-        "commands_enabled": ["test", "save", "edit", "del", "show"]
+GROUP_CONFIG = {
+    -1002787279234: {  # گروه اطلسیه
+        "name": "گروه اطلسیه",
+        "router_module": "group_atlas",  # نام فایل داخل پوشه groups
     },
     -4818872906: {  # گروه صندوق
-        "name": "صندوق اعتباری",
-        "db_schema": "fund",
-        "commands_enabled": ["test", "save", "show"]
-    },
+        "name": "گروه صندوق",
+        "router_module": "group_sandoqh",  # نام فایل داخل پوشه groups
+    }
 }
