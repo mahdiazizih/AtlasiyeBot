@@ -1,8 +1,8 @@
+# wedding_bot/groups/group_sandoogh.py
 
-from aiogram import Router
-from core.command_router import register_common_commands  # فراخوانی دستورات مشترک
+from telegram import Update
+from telegram.ext import ContextTypes
+from wedding_bot.core.command_router import handle_command
 
-group_-4818872906_router = Router(name="group_-4818872906")
-
-# ثبت دستورات مشترک برای این گروه
-register_common_commands(group_-4818872906_router)
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await handle_command(update, context)
