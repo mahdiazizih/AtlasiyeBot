@@ -1,14 +1,17 @@
 # wedding_bot/core/group_router.py
 
 from aiogram import Router
+from core.config.groups_config import GROUP_CONFIG
+import importlib
 
-from groups.group_-1002787279234 import group_-1002787279234_router 
-def setup_group_routers(dp: Router):  
-    dp.include_router(group_-1002787279234_router)
-    
-    from groups.group_-4818872906 import group_-4818872906_router 
-def setup_group_routers(dp: Router):  
-    dp.include_router(group_-4818872906_router)
+router = Router()
+
+def setup_group_routers(dp: Router):
+    for chat_id, cfg in GROUP_CONFIG.items():
+        module_name = cfg["router_module"]
+        module = importlib.import_module(f"wedding_bot.groups.{module_name}")
+        group_router = getattr(module, f"{module_name}_router")
+        dp.include_router(group_router)
 
 from aiogram.types import Message
 from importlib import import_module
